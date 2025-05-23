@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Justus Honge | Portfolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f2027;  /* fallback for gradient */
+      background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+      color: #f0f0f0;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Dark mode */
+    body.light-mode {
+      background: #f5f5f5;
+      color: #222;
+    }
+    body.light-mode header {
+      background: rgba(255 255 255 / 0.85);
+      border-bottom: 1px solid #ccc;
+      color: #222;
+      backdrop-filter: none;
+    }
+    body.light-mode nav a {
+      color: #222;
+    }
+    body.light-mode nav a:hover {
+      color: #00775a;
+    }
+    body.light-mode .hero {
+      color: #222;
+    }
+    body.light-mode section {
+      background: #fff;
+      color: #222;
+      box-shadow: 0 0 12px rgba(0, 191, 166, 0.15);
+      backdrop-filter: none;
+    }
+    body.light-mode .project-card {
+      background: #e3f2f1;
+      color: #004d40;
+      box-shadow: 0 0 12px #00775a88;
+    }
+    body.light-mode .project-card a {
+      color: #00775acc;
+    }
+    body.light-mode .project-card a:hover {
+      color: #004d40;
+      border-color: #004d40;
+    }
+    body.light-mode .contact-info {
+      color: #222;
+    }
+    body.light-mode footer {
+      background: #efefef;
+      color: #555;
+      border-top: 1px solid #ddd;
+    }
+
+    /* Header */
+    header {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1001;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #444;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+    header h1 {
+      font-weight: 600;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: #00bfa6;
+      transition: color 0.4s ease;
+    }
+
+    nav a {
+      color: #f0f0f0;
+      margin-left: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    nav a:hover {
+      color: #00bfa6;
+    }
+
+    main {
+      flex: 1;
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    section {
+      margin-bottom: 60px;
+      background: rgba(255 255 255 / 0.05);
+      padding: 30px 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 191, 166, 0.2);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      color: #ffffffdd;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero h2 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+      color: #00bfa6;
+      min-height: 60px; /* space for typing effect */
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      color: #e0f7f5;
+    }
+
+    h3 {
+      color: #00d2aa;
+      font-weight: 600;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      border-left: 5px solid #00bfa6;
+      padding-left: 15px;
+    }
+
+    .about p {
+      font-size: 1.1rem;
+      color: #c3dcd8;
+      max-width: 700px;
+      margin-top: 10px;
+    }
+
+    .projects-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 25px;
+    }
+    .project-card {
+      background: #142a2d;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 12px #00bfa6aa;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      color: #dcf5f1;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px #00bfa6cc;
+    }
+    .project-card h4 {
+      margin-bottom: 10px;
+      color: #00e3b4;
+      font-weight: 600;
+    }
+    .project-card p {
+      font-size: 1rem;
+      color: #a3c9c6;
+    }
+    .project-card a {
+      display: inline-block;
+      margin-top: 15px;
+      color: #00bfa6cc;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    .project-card a:hover {
+      border-color: #00bfa6cc;
+      color: #00e3b4;
+    }
+
+    .contact-info {
+      font-size: 1.1rem;
+      color: #c3dcd8;
+    }
+    .contact-info p {
+      margin-bottom: 10px;
+    }
+
+    /* Contact form */
+    form {
+      max-width: 500px;
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #00bfa6;
+    }
+    input, textarea {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      resize: vertical;
+      transition: box-shadow 0.3s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 6px #00e3b4;
+    }
+    button[type="submit"] {
+      background-color: #00bfa6;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    button[type="submit"]:hover {
+      background-color: #008d73;
+    }
+    .form-message {
+      margin-top: 10px;
+      font-weight: 600;
+      color: #00e3b4;
+    }
+    .form-message.error {
+      color: #ff6b6b;
+    }
+
+    /* Scroll to top button */
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      width: 50px;
+      height: 50px;
+      background-color: #00bfa6;
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 191, 166, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1005;
+      transition: background-color 0.3s ease;
+    }
+    #scrollTopBtn:hover {
+      background-color: #008d73;
+    }
+
+    /* Dark mode toggle button */
+    #darkModeToggle {
+      background: none;
+      border: 2px solid #00bfa6;
+      color: #00bfa6;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+    #darkModeToggle:hover {
+      background-color: #00bfa6;
+      color: #0f2027;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 10px;
+      }
+      nav a {
+        margin-left: 0;
+        margin-right: 20px;
+      }
+      .hero h2 {
+        font-size: 2rem;
+      }
+      h3 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Justus Honge</h1>
+    <nav>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <button id="darkModeToggle" aria-label="Toggle dark/light mode">Light Mode</button>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h2 id="typing-text"></h2>
+      <p>Welcome to my portfolio! I build beautiful, performant web applications that bring ideas to life.</p>
+    </section>
+
+    <section id="about" class="about">
+      <h3>About Me</h3>
+      <p>
+        I'm a passionate web developer with experience in frontend and backend technologies. I enjoy turning complex problems into simple, beautiful, and intuitive designs. When I'm not coding, I love photography and hiking.
+      </p>
+    </section>
+
+    <section id="projects" class="projects">
+      <h3>Projects</h3>
+      <div class="projects-list">
+        <div class="project-card">
+          <h4>Project One</h4>
+          <p>A responsive e-commerce website built with React and Node.js that offers a seamless shopping experience.</p>
+          <a href="#" target="_blank" rel="noopener noreferrer">View Project</a>
+        </div>
+        <div class="project-card">
+          <h4>Project Two</h4>
+          <p>An interactive data visualization dashboard using D3.js and Chart.js to help track user metrics efficiently.</p>
+          <a href="#" target="_blank" rel="noopener noreferrer">View Project</a>
+        </div>
+        <div class="project-card">
+          <h4>Project Three</h4>
+          <p>A mobile-first blog platform built with Vue.js and Firebase, featuring real-time commenting and notifications.</p>
+          <a href="#" target="_blank" rel="noopener noreferrer">View Project</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h3>Contact</h3>
+      <div class="contact-info">
+        <p>Email: justushonge2253@gmail.com</p>
+        <p>Phone: +254791289018</p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/justushonge" target="_blank" rel="noopener noreferrer" style="color:#00bfa6;">linkedin.com/in/johndoe</a></p>
+      </div>
+
+      <form id="contactForm" novalidate>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your full name" required minlength="2" />
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="your.email@example.com" required />
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" placeholder="Your message" required minlength="10"></textarea>
+        <button type="submit">Send Message</button>
+        <div id="formMessage" class="form-message" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <button id="scrollTopBtn" title="Scroll to top" aria-label="Scroll to top">&#8679;</button>
+
+  <footer>
+    &copy; 2025 Justus Honge. All rights reserved.
+  </footer>
+
+  <script>
+    // Smooth scrolling
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Fade-in animation for sections on scroll using IntersectionObserver
+    const sections = document.querySelectorAll('section');
+    const observerOptions = {
+      threshold: 0.2
+    };
+    const sectionObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+
+    // Scroll to top button
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollBtn.style.display = 'flex';
+      } else {
+        scrollBtn.style.display = 'none';
+      }
+    });
+    scrollBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Dark/light mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    function setDarkMode(enabled) {
+      if (enabled) {
+        body.classList.remove('light-mode');
+        darkModeToggle.textContent = 'Light Mode';
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        body.classList.add('light-mode');
+        darkModeToggle.textContent = 'Dark Mode';
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    }
+
+    // Load saved preference or default to dark mode
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'disabled') {
+      setDarkMode(false);
+    } else {
+      setDarkMode(true);
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+      const isDark = !body.classList.contains('light-mode');
+      setDarkMode(isDark ? false : true);
+    });
+
+    // Typing effect for hero welcome message
+    const typingText = document.getElementById('typing-text');
+    const phrases = [
+      "Hello, I'm JUSTUS HONGE",
+      "Web Developer",
+      "Creative Coder",
+      "Tech Enthusiast"
+    ];
+    let phraseIndex = 0;
+    let letterIndex = 0;
+    let currentText = '';
+    let isDeleting = false;
+    let typingSpeed = 120;
+
+    function type() {
+      const currentPhrase = phrases[phraseIndex];
+      if (!isDeleting) {
+        currentText = currentPhrase.substring(0, letterIndex + 1);
+        letterIndex++;
+        typingText.textContent = currentText;
+        if (letterIndex === currentPhrase.length) {
+          isDeleting = true;
+          typingSpeed = 1500; // Pause before deleting
+        } else {
+          typingSpeed = 120;
+        }
+      } else {
+        currentText = currentPhrase.substring(0, letterIndex - 1);
+        letterIndex--;
+        typingText.textContent = currentText;
+        if (letterIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          typingSpeed = 500;
+        } else {
+          typingSpeed = 60;
+        }
+      }
+      setTimeout(type, typingSpeed);
+    }
+
+    type();
+
+    // Contact form validation and submission simulation
+    const contactForm = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      formMessage.textContent = '';
+      formMessage.classList.remove('error');
+
+      const name = contactForm.name.value.trim();
+      const email = contactForm.email.value.trim();
+      const message = contactForm.message.value.trim();
+
+      if (name.length < 2) {
+        formMessage.textContent = 'Please enter a valid name (at least 2 characters).';
+        formMessage.classList.add('error');
+        contactForm.name.focus();
+        return;
+      }
+      // Simple email regex for demonstration
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/i;
+      if (!emailPattern.test(email)) {
+        formMessage.textContent = 'Please enter a valid email address.';
+        formMessage.classList.add('error');
+        contactForm.email.focus();
+        return;
+      }
+      if (message.length < 10) {
+        formMessage.textContent = 'Please enter a message at least 10 characters long.';
+        formMessage.classList.add('error');
+        contactForm.message.focus();
+        return;
+      }
+
+      // Simulate sending message
+      formMessage.textContent = 'Sending message...';
+      formMessage.classList.remove('error');
+      contactForm.querySelector('button[type="submit"]').disabled = true;
+
+      setTimeout(() => {
+        formMessage.textContent = 'Message sent successfully! I will get back to you soon.';
+        contactForm.reset();
+        contactForm.querySelector('button[type="submit"]').disabled = false;
+      }, 1800);
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
